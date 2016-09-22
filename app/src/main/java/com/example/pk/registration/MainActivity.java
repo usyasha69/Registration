@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText loginEt;
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (email.isEmpty()) {
             finalResult += "Email is empty; ";
         }
-        if (!email.contains("@") && !email.isEmpty()) {
+        if (!checkEmailValidation(email) && !email.isEmpty()) {
             finalResult += "Incorrect email; ";
         }
         //check phone number
@@ -115,5 +118,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         phoneNumberEt.setText(savedInstanceState.getString(PHONE_NUMBER_KEY));
         passwordEt.setText(savedInstanceState.getString(PASSWORD_KEY));
         repeatPasswordEt.setText(savedInstanceState.getString(REPEAT_PASSWORD_KEY));
+    }
+
+    /**
+     * This method checked email from validation.
+     *
+     * @param email - email
+     * @return - email validation or not
+     */
+    private boolean checkEmailValidation(String email) {
+        final String EMAIL_PATTEEN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+                "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Matcher matcher = Pattern.compile(EMAIL_PATTEEN).matcher(email);
+
+        return matcher.matches();
     }
 }
